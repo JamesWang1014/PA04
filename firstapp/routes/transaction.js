@@ -17,10 +17,18 @@ router.get('/transaction',
     isLoggedIn,
     async (req, res, next) => {
         let items=[]
-        items = await TransactionItem.find({userId:req.user._id}).sort({Date:1,Amount:1,Description:1,Category:1})
+        items = await TransactionItem.find({userId:req.user._id})
         res.render('transaction',{items});
     }
-    
+
+)
+router.get('/transaction/groupBy/:category',
+    isLoggedIn,
+    async (req, res, next) => {
+        let items=[]
+        items = await TransactionItem.find({userId:req.user._id}).sort({Category:1})
+        res.render('transaction',{items});
+    }
 )
 router.post('/transaction',
   isLoggedIn,
