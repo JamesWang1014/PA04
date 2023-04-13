@@ -16,20 +16,28 @@ isLoggedIn = (req,res,next) => {
 router.get('/transaction',
     isLoggedIn,
     async (req, res, next) => {
-        let items=[]
-        items = await TransactionItem.find({userId:req.user._id})
-        res.render('transaction',{items});
+        const sortBy = req.query.sortBy
+        let items =[]
+        if(sortBy == "category"){
+            items = await TransactionItem.find({userId:req.user._id}).sort({Category:1})
+            res.render('transaction',{items});
+        }
+        else if(sortBy == "date"){
+            items = await TransactionItem.find({userId:req.user._id}).sort({Date:1})
+            res.render('transaction',{items});
+        }else if(sortBy == "amount"){
+            items = await TransactionItem.find({userId:req.user._id}).sort({Amount:1})
+            res.render('transaction',{items});
+        }else if(sortBy == "description"){
+            items = await TransactionItem.find({userId:req.user._id}).sort({Description:1})
+            res.render('transaction',{items});
+        }else{
+            items = await TransactionItem.find({userId:req.user._id})
+            res.render('transaction',{items});
+        }
     }
+)
 
-)
-router.get('/transaction/groupBy/:category',
-    isLoggedIn,
-    async (req, res, next) => {
-        let items=[]
-        items = await TransactionItem.find({userId:req.user._id}).sort({Category:1})
-        res.render('transaction',{items});
-    }
-)
 router.post('/transaction',
   isLoggedIn,
   async (req, res, next) => {
