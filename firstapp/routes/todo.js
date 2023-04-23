@@ -121,13 +121,12 @@ router.get('/todo/byUser',
                     }},
                   {$sort:{total:-1}},              
                 ])
-              
         results = 
            await User.populate(results,
                    {path:'_id',
                    select:['username','age']})
 
-        //res.json(results)
+        res.json(results)
         res.render('summarizeByUser',{results})
 });
 
