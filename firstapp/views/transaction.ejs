@@ -11,6 +11,8 @@
               href="?sortBy=amount">sort by amount</a>
       <a class="btn btn-lg btn-primary"
               href="?sortBy=description">sort by description</a>
+      <a class="btn btn-lg btn-primary"
+              href="/transaction/groupby">group by category</a>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -19,6 +21,7 @@
               <th>Category</th>
               <th>Date</th>
               <th>Delete</th>
+              <th>Edit</th>
           </tr>
       </thead>
       <tbody>
@@ -32,6 +35,12 @@
               <a href="transaction/remove/<%= item._id %>">
                 <i class="bi bi-trash"></i>
               </a>
+            </td>
+            <td>
+              <a href="transaction/transactionedit/<%= item._id %>">
+                <i class="bi bi-pencil"></i>
+              </a>
+            </td>
           </tr>
           <% }) %>
         </tbody>

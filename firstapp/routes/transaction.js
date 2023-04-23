@@ -60,5 +60,36 @@ router.get('/transaction/remove/:itemId',
       await TransactionItem.deleteOne({_id:req.params.itemId});
       res.redirect('/transaction')
 });
+router.get('/transaction/transactionedit/:itemId',
+    isLoggedIn,
+    async (req, res, next) => {
+        console.log("inside /transaction/transactionedit:itemId")
+        const item = 
+       await TransactionItem.findById(req.params.itemId);
+      res.locals.item = item
+      res.render('transactionupdate')
+    }
+    );
+router.post('/transaction/update',
+    isLoggedIn,
+    async (req, res, next) => {
+        console.log("inside /transaction/update/:itemId")
+        const {itemId,Description,Category,Amount,Date} = req.body;
+        await TransactionItem.findOneAndUpdate({_id:itemId},{$set:{Description,Category,Amount,Date}})
+        res.redirect('/transaction')
+    }
+    );
+
+router.get('/transaction/groupby',
+    isLoggedIn,
+    async (req, res, next) => {
+        let results = 
+            await TransactionItem.aggregate([
+                {$group: {_id: "$Category", total: {$sum: "$Amount"}}} 
+            ])
+
+        res.render('groupedTransaction',{results});
+    }
+)
 
 module.exports = router;
